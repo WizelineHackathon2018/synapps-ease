@@ -1,0 +1,469 @@
+package com.comynt.vme.frm;
+
+import BO.*;
+
+import com.System.Dispositivo.Info;
+import com.System.Ticket.TicketCPCL;
+import com.System.UI.kButton;
+import com.System.UI.kIButton;
+import com.System.UI.kListView;
+import com.System.Utils.Logg;
+import com.System.Utils.Utils;
+import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
+import com.comynt.vme.*;
+import com.comynt.vme.adapt.*;
+import com.comynt.vme.async.AsyncLogin;
+import com.comynt.vme.async.AsyncSincronizar;
+import com.comynt.vme.async.AsyncImprimir;
+import com.comynt.vme.async.IAsyncEvent;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.Toast;
+
+public class frmMenu extends FragmentActivity implements IAsyncEvent, kIButton
+{
+	Repositorio repositorio = Repositorio.getInstance();
+	public IAsyncEvent Evento = null;
+	
+    private static TextToSpeech mTts;
+    private OnInitListener tts_escucha;
+    Button btnVoz = null;
+	
+	ArrayList<HashMap<String, String>> datosLista = new ArrayList<HashMap<String, String>>();
+	ListView list = null;
+	adapMenu adapter = null;
+	
+	ListView lslmInventarioVenta = null;
+	static adaptInventario lmadapterInventario = null;
+	
+    public static final String KEY_OPCION = "OPCION";
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+    	super.onCreate(savedInstanceState);
+		setContentView(R.layout.frmmenu);
+
+		repositorio.IniciaVariables(this);
+		Evento = this;
+
+		btnVoz = (Button) findViewById(R.id.btnVoz);
+
+		tts_escucha = new OnInitListener()
+		{
+		    public void onInit(int status)
+		    {
+		        if (status == TextToSpeech.SUCCESS) 
+		        {
+		        }
+		        else
+		        {
+		        	//mens("Sin iniciar TextToSpeech.");
+		        }
+		    }
+		};
+        mTts = new TextToSpeech(this, tts_escucha);
+
+		HashMap<String,String> item1 = new HashMap<String,String>();
+		item1.put(KEY_OPCION, "1) Sincronización de inicio");
+		datosLista.add(item1);
+
+		HashMap<String,String> item2 = new HashMap<String,String>();
+		item2.put(KEY_OPCION, "2) CheckList vehiculo");
+		datosLista.add(item2);
+
+		HashMap<String,String> item3 = new HashMap<String,String>();
+		item3.put(KEY_OPCION, "3) Realizar Venta con almacen");
+		datosLista.add(item3);
+
+		HashMap<String,String> item4 = new HashMap<String,String>();
+		item4.put(KEY_OPCION, "4) Reimprimir");
+		datosLista.add(item4);
+
+		HashMap<String,String> item5 = new HashMap<String,String>();
+		item5.put(KEY_OPCION, "5) Imprimir inventario");
+		datosLista.add(item5);
+
+		HashMap<String,String> item6 = new HashMap<String,String>();
+		item6.put(KEY_OPCION, "6) Imprimir liquidación");
+		datosLista.add(item6);
+
+
+		HashMap<String,String> item7 = new HashMap<String,String>();
+		item7.put(KEY_OPCION, "7) Sincronización de fin");
+		datosLista.add(item7);
+
+
+		list = (ListView)findViewById(R.id.lvOpciones);
+
+        adapter = new adapMenu(this, datosLista);
+        list.setAdapter(adapter);
+
+		list.setClickable(false);
+
+		list.setOnItemClickListener(new OnItemClickListener()
+		{
+		    @Override
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+		    {
+		    	list.playSoundEffect(0);
+
+		    	if(position == 0) //sincronizar - OK
+		    	{
+//					Toast.makeText(frmMenu.this.getBaseContext(), 
+//							"Se ha sincronizado la información con exito", Toast.LENGTH_LONG).show();
+//
+//					repositorio.SimulaSincronizacion();
+
+		    		if (Info.ServicioDatosActivos(frmMenu.this.getBaseContext()))
+		    		{
+			    		Toast.makeText(view.getContext(), "Sincronizando.. ", Toast.LENGTH_LONG).show();
+
+			    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+						{
+				    		habla("Sincronizando");
+						}
+
+			    		AsyncSincronizar oAsyncSincronizar = new AsyncSincronizar(frmMenu.this.getBaseContext());
+						oAsyncSincronizar.evento = frmMenu.this.Evento;
+						Thread _threadAsyncSincronizar = new Thread(oAsyncSincronizar);
+						_threadAsyncSincronizar.start();
+		    		}
+		    		else
+		    		{
+		    			Toast.makeText(view.getContext(), "Por favor revise estar conectado a la red celualar o wifi para efectuar la operación", Toast.LENGTH_LONG).show();
+
+			    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+						{
+			    			habla("Error no se detecta señal");
+						}
+		    		}
+		    	}
+		    	else if(position == 1) //checklist - OK
+		    	{
+					Intent sig = new Intent(frmMenu.this, frmCheckList.class);
+					startActivityForResult(sig, 500);
+					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		    	}
+		    	else if(position == 2) //agenda - OK
+		    	{
+					Intent sig = new Intent(frmMenu.this, frmActividades.class);
+					startActivityForResult(sig, 500);
+					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		    	}
+		    	else if(position == 3) //reimprimir las ventas
+		    	{
+//		    		Toast.makeText(view.getContext(), "No tiene permiso para entrar a este modulo", Toast.LENGTH_LONG).show();
+//
+//		    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+//					{
+//						habla("No tiene permiso para entrar a este modulo");
+//					}
+
+					Intent sig = new Intent(frmMenu.this, frmReimprimir.class);
+					startActivityForResult(sig, 500);
+					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		    	}
+		    	else if(position == 4) //imprimir almacen
+		    	{
+//		    		if(repositorio.lsAlmacenMovil == null)
+//		    		{
+//		    			repositorio.ConsultarAlmacenMovil(repositorio.ID_SQL, repositorio.ID_GuardaMemoria, "", "", "");
+//		    		}
+//
+//		    		if(repositorio.lsAlmacenMovil != null)
+//		    		{
+//		    			TicketCPCL ticket = new TicketCPCL();
+//
+//		    			AsyncImprimir oAsyncSincronizar = new AsyncImprimir(ticket.ObtenerTicketAlmacen(), repositorio.ID_ImprimirAlmacen);
+//		    			Thread _threadAsyncSincronizar = new Thread(oAsyncSincronizar);
+//		    			_threadAsyncSincronizar.start();
+//
+//		    		}
+//		    		else
+//		    		{
+//			    		Toast.makeText(view.getContext(), "No hay inventario cargado en el almacen", Toast.LENGTH_LONG).show();
+//
+//			    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+//						{
+//							habla("No hay inventario cargado en el almacen");
+//						}
+//		    		}
+
+					Intent sig = new Intent(frmMenu.this, frmVerInventarioMovil.class);
+					startActivityForResult(sig, 500);
+					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		    	}
+		    	else if(position == 5) //IMPRIMIR LIQUIDACION
+		    	{
+//	    			repositorio.ConsultarOperacionesDiarias("Venta");
+//
+//		    		if(repositorio.lsVenta != null)
+//		    		{
+//		    			TicketCPCL ticket = new TicketCPCL();
+//
+//		    			AsyncImprimir oAsyncSincronizar = new AsyncImprimir(ticket.ObtenerTicketLiquidacion(), repositorio.ID_ImprimirLiquidacion);
+//		    			Thread _threadAsyncSincronizar = new Thread(oAsyncSincronizar);
+//		    			_threadAsyncSincronizar.start();
+//		    		}
+//		    		else
+//		    		{
+//			    		Toast.makeText(view.getContext(), "No hay operaciones en el dia", Toast.LENGTH_LONG).show();
+//
+//			    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+//						{
+//							habla("No hay operaciones en el dia");
+//						}
+//		    		}
+
+					Intent sig = new Intent(frmMenu.this, frmVerLiquidacion.class);
+					startActivityForResult(sig, 500);
+					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		    	}
+		    	else if(position == 6) //incidente
+		    	{
+		    		Toast.makeText(view.getContext(), "No tiene permiso para entrar a este modulo", Toast.LENGTH_LONG).show();
+
+		    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+					{
+						habla("No tiene permiso para entrar a este modulo");
+					}
+		    		
+//					Intent sig = new Intent(frmMenu.this, frmAgregarIncidente.class);
+//					startActivityForResult(sig, 500);
+//					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		    	}
+		    	else if(position == 7) //gastos - OK, probar
+		    	{
+		    		Toast.makeText(view.getContext(), "No tiene permiso para entrar a este modulo", Toast.LENGTH_LONG).show();
+
+		    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+					{
+						habla("No tiene permiso para entrar a este modulo");
+					}
+
+//					Intent sig = new Intent(frmMenu.this, frmAgregarGasto.class);
+//					startActivityForResult(sig, 500);
+//					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		    	}
+		    	else if(position == 8) //ficha tecnica
+		    	{
+		    		Toast.makeText(view.getContext(), "No tiene permiso para entrar a este modulo", Toast.LENGTH_LONG).show();
+
+		    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+					{
+						habla("No tiene permiso para entrar a este modulo");
+					}
+		    		
+//					Intent sig = new Intent(frmMenu.this, frmConsultarFichaTecnica.class);
+//					startActivityForResult(sig, 500);
+//					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		    	}
+		    	else if(position == 9) //cliente final/punto de venta/sucursal
+		    	{
+		    		Toast.makeText(view.getContext(), "No tiene permiso para entrar a este modulo", Toast.LENGTH_LONG).show();
+
+		    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+					{
+						habla("No tiene permiso para entrar a este modulo");
+					}
+
+//					Intent sig = new Intent(frmMenu.this, frmAgregarClienteFinal.class);
+//					startActivityForResult(sig, 500);
+//					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		    	}
+		    	else if(position == 10) //Quejas - OK probar
+		    	{
+		    		Toast.makeText(view.getContext(), "No tiene permiso para entrar a este modulo", Toast.LENGTH_LONG).show();
+
+		    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+					{
+						habla("No tiene permiso para entrar a este modulo");
+					}
+
+//					Intent sig = new Intent(frmMenu.this, frmAgregarQueja.class);
+//					startActivityForResult(sig, 500);
+//					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		    	}
+		    }
+
+		});		
+
+//		Button btnVoz = (Button) findViewById(R.id.btnVoz);
+//		btnVoz.setOnClickListener(new OnClickListener()
+//		{
+//			public void onClick(View v)
+//			{
+////				startVoiceRecognitionActivity();
+//			}
+//		});
+
+//        createData();
+//        createChart();
+		
+		SlidingMenu menu = new SlidingMenu(this);
+		
+		if(repositorio.ConfiguracionUsabilidad.Menu == 0)
+		{
+			menu.setMode(SlidingMenu.RIGHT);
+		}
+		else
+		{
+			menu.setMode(SlidingMenu.LEFT);
+		}
+		
+        if (this.repositorio.lsAlmacenMovil == null)
+        {
+        	this.repositorio.ConsultarAlmacenMovil(2, 4, String.valueOf(this.repositorio.Vendedor.IdEmpresa), "0", "0");
+        }
+		
+		menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		menu.setShadowWidthRes(R.dimen.shadow_width);
+		menu.setShadowDrawable(R.drawable.shadow);
+		menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		menu.setFadeDegree(0.35f);
+		menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+		
+		menu.setMenu(R.layout.tablateralmenu);
+		
+		ViewPager pager = (ViewPager) findViewById(R.id.pager);
+		pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+		
+		PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+		tabs.setViewPager(pager);
+	}
+
+	public static void habla(String cad)
+	{
+		Logg.info("Sirigonia: " + cad);
+
+		mTts.speak(cad, TextToSpeech.QUEUE_FLUSH, null);
+    	while(mTts.isSpeaking());
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+	}
+	
+	@Override
+	public void commandAction(kButton b, View v) 
+	{
+		if(b == btnVoz)
+		{
+			habla("¿En que te puedo ayudar?");
+			//startVoiceRecognitionActivity();
+		}
+	}
+
+	@Override
+	public void Event(String event, String args)
+	{
+		this.runOnUiThread(new Runnable() {
+			  public void run() {
+				  Repositorio repositorio = Repositorio.getInstance();
+
+					Toast.makeText(frmMenu.this.getBaseContext(), 
+						"Se ha sincronizado la información con exito", Toast.LENGTH_LONG).show();
+
+					if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+					{
+						habla("Se ha sincronizado la información con exito");
+					}
+
+//						if(repositorio.ActividadesDelDia == 0)
+//						{
+//							habla("Hoy no tienes actividades");
+//						}
+//						else if(repositorio.ActividadesDelDia > 0)
+//						{
+//							if(repositorio.ActividadesDelDia == 1)
+//							{
+//								habla("Hoy tiene 1 actividad en la agenda");
+//							}
+//							else
+//							{
+//								habla("hoy tienes " + repositorio.ActividadesDelDia + " actividades en la agenda");
+//							}
+
+//					    	for(int x = 0; x < repositorio.lsActividades.size(); x++)
+//					    	{
+//					    		repositorio.Actividades = (BOActividades)repositorio.lsActividades.get(x);
+//
+//					    		if(repositorio.Actividades.FechaProgramada.equals(Utils.getFechaActual_DD_MM_YYYY_Server()))
+//					    		{
+//					    			if(repositorio.Actividades.IdEvento == 1) //Evento
+//					    			{
+//					    				habla("De " + repositorio.Actividades.HoraInicio + " a " + repositorio.Actividades.HoraFin + 
+//					    					", Evento " + repositorio.Actividades.Descripcion + ", Observación " + repositorio.Actividades.Observaciones);
+//					    			}
+//					    			else if(repositorio.Actividades.IdEvento == 2) //Visita
+//					    			{
+//					    				habla("De " + repositorio.Actividades.HoraInicio + " a " + repositorio.Actividades.HoraFin + 
+//						    					", Visita " + repositorio.Actividades.Descripcion + ", Observación " + repositorio.Actividades.Observaciones);
+//					    			}
+//					    			else //Prospecto
+//					    			{
+//					    				habla("De " + repositorio.Actividades.HoraInicio + " a " + repositorio.Actividades.HoraFin + 
+//						    					", Prospectar " + repositorio.Actividades.Descripcion + ", Observación " + repositorio.Actividades.Observaciones);
+//					    			}
+//					    		}
+//					    	}
+
+//						}
+
+			  }
+		});
+	}
+
+//	private void CargarVenta()
+//	{
+//        if (this.repositorio.lsAlmacenMovil == null)
+//        {
+//        	this.repositorio.ConsultarAlmacenMovil(2, 4, String.valueOf(this.repositorio.Vendedor.IdEmpresa), "0", "0");
+//        }
+//
+//		if(repositorio.lsAlmacenMovil != null)
+//		{
+//			lslmInventarioVenta = (ListView)findViewById(R.id.lslmInventarioVenta);
+//
+//			lmadapterInventario = new adaptInventario(this, repositorio.lsAlmacenMovil);
+//			lslmInventarioVenta.setAdapter(lmadapterInventario);
+//
+//			lslmInventarioVenta.setClickable(false);
+//		}
+//	}
+//	
+//	private void CargarCuota()
+//	{
+//		
+//	}
+//	
+//	private void CargarOpciones()
+//	{
+//		
+//	}
+	
+}

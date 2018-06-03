@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;AlmacenMovil&apos; in &apos;com.comynt.vme.adapt.adaptVerDatos.getView(...)&apos; to &apos;Nota&apos;&#x0D;&#x0A;- Original project: &apos;DataService&apos;&#x0D;&#x0A;- Original element: &apos;com.comynt.vme.adapt.adaptVerDatos.getView(int, View, ViewGroup).AlmacenMovil&apos;&#x0D;&#x0A;- Renamed element: &apos;AlmacenMovil&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;AlmacenMovil&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;com.comynt.vme.adapt{adaptVerDatos.java[adaptVerDatos~getView~I~QView;~QViewGroup;@AlmacenMovil!2618!2644!2625!2636!QBONota;!0!false" name="Nota" references="true" stamp="1414386683100" version="1.0"/>
+</session>

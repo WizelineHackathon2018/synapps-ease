@@ -1,0 +1,21 @@
+INDEX VERSION 1.126+C:\Repositorio\Ventas nube\Labs\Android\.metadata\.plugins\org.eclipse.jdt.core
+2493637918.index
+1984892392.index
+408066573.index
+3291192684.index
+4256788739.index
+2779629487.index
+1299458248.index
+397614340.index
+3203437233.index
+2329217890.index
+4275460752.index
+3515282563.index
+4001168696.index
+1531412002.index
+1569037961.index
+2566502918.index
+4078470355.index
+881975422.index
+136004392.index
+1552139042.index

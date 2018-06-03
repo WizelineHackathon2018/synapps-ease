@@ -1,0 +1,31 @@
+1410921707865	Rename field 'txtItemHora'
+1410921770175	Delete elements
+1410921779369	Delete elements
+1410921787400	Delete elements
+1410921792353	Delete element
+1410923199624	Delete elements
+1410923205203	Delete elements
+1410923215513	Delete elements
+1410934430443	Rename field 'txtItemDescripcion'
+1410934444796	Rename field 'txtItemObservacion'
+1410936686792	Rename local variable 'actividad'
+1410950532749	Move compilation unit
+1410950549147	Move compilation unit
+1410950997734	Move compilation unit
+1410998875894	Move compilation unit
+1411057513271	Move compilation unit
+1411107331329	Move compilation unit
+1411149547547	Rename method 'listAction'
+1411149564235	Rename method 'doubleclick_listAction'
+1411164247116	Move compilation unit
+1411165069507	Rename field 'textView1'
+1411165086663	Rename field 'editText1'
+1411165095099	Rename field 'lblRespuestaLibre'
+1411265185579	Rename package 'com.System.speech'
+1411266365199	Rename local variable 'fechanueva'
+1411266623718	Rename type 'KIEditText'
+1411266635701	Rename type 'KEditText'
+1411271918802	Delete element
+1411271937971	Rename type 'kTimeMessage'
+1411271952832	Rename type 'kITimeMessage'
+1411336512026	Move compilation unit

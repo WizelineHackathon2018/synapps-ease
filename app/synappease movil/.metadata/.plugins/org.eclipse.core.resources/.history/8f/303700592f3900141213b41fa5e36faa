@@ -1,0 +1,102 @@
+package com.comynt.vme.frm;
+
+import BO.*;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Gallery;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.System.Dispositivo.Info;
+import com.System.UI.kButton;
+import com.System.UI.kIButton;
+import com.System.Utils.Logg;
+import com.System.Utils.Utils;
+import com.comynt.R;
+import com.comynt.vme.Repositorio;
+import com.comynt.vme.adapt.adapImagenesFoto;
+
+public class frmAgregarQueja extends Activity implements kIButton 
+{
+	Repositorio repositorio = Repositorio.getInstance();
+	adapImagenesFoto adapimg =  null;
+
+    private static TextToSpeech mTts;
+    private OnInitListener tts_escucha;
+
+	kButton btnAtras = null;
+	kButton btnAdelate = null;
+	kButton btnVoz = null;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.frmagregarqueja);
+
+		repositorio.IniciaVariables(this);
+
+	    btnAtras = (kButton) findViewById(R.id.btnAtras);
+	    btnAdelate = (kButton) findViewById(R.id.btnAdelante);
+	    btnVoz = (kButton) findViewById(R.id.btnVoz);
+
+		tts_escucha = new OnInitListener() 
+		{
+		    public void onInit(int status)
+		    {
+		        if (status == TextToSpeech.SUCCESS) 
+		        {
+		        }
+		        else
+		        {
+		        	//mens("Sin iniciar TextToSpeech.");
+		        }
+		    }
+		};
+        mTts = new TextToSpeech(this, tts_escucha);
+	}
+
+	public static void habla(String cad)
+	{
+		Logg.info("Sirigonia: " + cad);
+
+		mTts.speak(cad, TextToSpeech.QUEUE_FLUSH, null);
+    	while(mTts.isSpeaking());
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+	}
+
+	@Override
+	public void commandAction(kButton b, View v) {
+		if(b == btnAdelate)
+		{
+			Toast.makeText(this, "Se agrego la queja con exito", Toast.LENGTH_LONG).show();
+			
+    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+			{
+	    		habla("Se agrego la queja con exito");
+			}
+			
+			finish();
+		}
+		else if(b == btnAtras)
+		{
+			finish();
+		}
+		else if(b == btnVoz)
+		{
+			habla("¿En que te puedo ayudar?");
+			//startVoiceRecognitionActivity();
+		}
+	}
+
+}

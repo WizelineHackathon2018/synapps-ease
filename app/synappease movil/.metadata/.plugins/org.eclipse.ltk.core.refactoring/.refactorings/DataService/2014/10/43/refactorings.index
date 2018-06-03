@@ -1,0 +1,22 @@
+1414134603245	Rename local variable 'carsIterator'
+1414134612971	Rename local variable 'BOIterator'
+1414136864212	Rename type 'Filter'
+1414137402162	Move compilation unit
+1414137411229	Move compilation unit
+1414137417367	Move compilation unit
+1414177126164	Delete element
+1414205145307	Rename field 'lblinvInicial'
+1414205161043	Rename field 'txtinvInicial'
+1414205179923	Rename field 'lblinvVenta'
+1414205206178	Rename field 'txtinvVenta'
+1414205244102	Rename field 'lblinvDevolucion'
+1414205258533	Rename field 'txtinvDevolucion'
+1414205275202	Rename field 'lblinvExistencia'
+1414205290761	Rename field 'txtinvExistencia'
+1414206169974	Rename field 'txtinvInicial'
+1414206199840	Rename field 'txtinvVenta'
+1414206213472	Rename field 'txtinvDevolucion'
+1414206222610	Rename field 'txtinvExistencia'
+1414285503871	Move method 'ObtenerImprecion'
+1414285815261	Rename method 'ObtenerImprecion'
+1414294525372	Rename type 'AsyncVenta'

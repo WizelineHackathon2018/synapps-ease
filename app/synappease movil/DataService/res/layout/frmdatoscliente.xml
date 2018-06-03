@@ -1,0 +1,93 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/lycArriba"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lycAbajo"
+        android:background="@drawable/fondopantalla" >
+        
+    		<ListView
+    		    android:id="@+id/lsDatosCliente"
+    		    android:layout_width="match_parent"
+    		    android:layout_height="match_parent"
+    		    android:background="@drawable/fondopantalla"
+    		    android:divider="#FFFFFF"
+    		    android:dividerHeight="1dp"
+    		    android:listSelector="@drawable/gradient_bg_hover" >
+                
+    		</ListView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lycAbajo"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/lyabajobackground" >
+
+                <com.System.UI.kButton
+                    android:id="@+id/btnGau"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/dos_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:background="@drawable/iconlarge6"/>
+
+                <com.System.UI.kButton
+                    android:id="@+id/btnAtras"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/dos_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="REGRESAR"
+                    android:textColor="#FFFFFF" />
+
+                <com.System.UI.kButton
+                    android:id="@+id/btnAdelante"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/dos_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="SIGUIENTE"
+                    android:textColor="#FFFFFF" />
+                
+                <com.System.UI.kButton
+                    android:id="@+id/btnEst"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/dos_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:background="@drawable/ic_menu_lat"/>
+
+        </LinearLayout>
+        
+    </RelativeLayout>
+	
+</RelativeLayout>

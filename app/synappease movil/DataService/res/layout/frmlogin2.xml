@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/lycArriba"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lycAbajo"
+        android:background="@drawable/fondopantalla" >
+
+    <TableLayout
+        android:id="@+id/TableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/logocliente" />
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:padding="5dp" >
+
+            <EditText
+                android:id="@+id/txtUsuario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_shadow"
+                android:ems="10"
+                android:hint="Usuario"
+                android:imeOptions="actionDone"
+                android:padding="@dimen/dos_dp"
+                android:singleLine="true"
+                android:textColorHint="#E70087" >
+
+                <requestFocus />
+            </EditText>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:padding="5dp" >
+
+            <EditText
+                android:id="@+id/txtPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_shadow"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="@dimen/dos_dp"
+                android:textColorHint="#E70087" />
+
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:padding="5dp" >
+
+            <Button
+                android:id="@+id/btnAdelante"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="INICIAR SESION"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            
+                <RadioGroup
+                    android:id="@+id/grManejo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" >
+
+                    <RadioButton
+                        android:id="@+id/rbDerecha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Menu derecha"
+                        android:textColor="#154790" />
+
+                    <RadioButton
+                        android:id="@+id/rbIzquierda"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Menu izquierda"
+                        android:textColor="#154790" />
+
+                </RadioGroup>
+                
+                <CheckBox
+                    android:id="@+id/ckVoz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Usar ayuda de voz"
+                    android:textColor="#154790"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </TableRow>        
+
+    </TableLayout>
+    
+    </RelativeLayout>
+    	
+    <RelativeLayout
+        android:id="@+id/lycAbajo"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone" >
+    
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/lyabajobackground" >
+
+                <Button
+                    android:id="@+id/btnAtras"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/tres_dp"
+                    android:layout_marginLeft="@dimen/tres_dp"
+                    android:layout_marginRight="@dimen/tres_dp"
+                    android:layout_marginTop="@dimen/tres_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="SALIR"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnVoz"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/tres_dp"
+                    android:layout_marginLeft="@dimen/tres_dp"
+                    android:layout_marginRight="@dimen/tres_dp"
+                    android:layout_marginTop="@dimen/tres_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="AYUDA"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        
+    </RelativeLayout>
+
+
+</RelativeLayout>

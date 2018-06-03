@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="2dp" >
+
+    <RelativeLayout
+        android:id="@+id/lyTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/lyDere"
+        android:gravity="top" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:orientation="horizontal" >
+
+         <com.System.UI.kEditText
+             android:id="@+id/txtItemCantidad"
+             android:layout_width="40dp"
+             android:layout_height="30dp"
+             android:layout_alignParentLeft="true"
+             android:layout_marginLeft="1dp"
+             android:layout_marginRight="1dp"
+             android:layout_marginTop="1dp"
+             android:background="#EDEDED"
+             android:ems="10"
+             android:hint="0"
+             android:inputType="numberDecimal" />
+         
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/txtItemDescripcionProducto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alimento para pollo"
+            android:textColor="#154790" />
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lyDere"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lyBot"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/lyTo" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:orientation="horizontal" >
+        
+        <com.System.UI.kButton
+            android:id="@+id/btnEliminarProducto"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/ic_sustrac"
+            android:focusable="false"
+            android:padding="1dp" />
+
+        <com.System.UI.kButton
+            android:id="@+id/btnAgregarProducto"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/ic_add"
+            android:focusable="false"
+            android:padding="1dp" />
+        
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

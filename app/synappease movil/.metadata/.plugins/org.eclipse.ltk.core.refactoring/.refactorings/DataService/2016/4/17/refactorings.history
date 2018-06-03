@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 4 elements from project &apos;DataService&apos;&#x0D;&#x0A;- Original project: &apos;DataService&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     DataService/src/com.solutions.apps.labs&#x0D;&#x0A;     DataService/src/com.solutions.apps.labs.adapt&#x0D;&#x0A;     DataService/src/com.solutions.apps.labs.async&#x0D;&#x0A;     DataService/src/com.solutions.apps.labs.frm" description="Delete elements" element1="/src&lt;com.solutions.apps.labs.frm" element2="/src&lt;com.solutions.apps.labs.async" element3="/src&lt;com.solutions.apps.labs.adapt" element4="/src&lt;com.solutions.apps.labs" element5="/src&lt;com.solutions.apps" element6="/src&lt;com.solutions" elements="6" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1461435821703" subPackages="false" version="1.0"/>
+</session>

@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item android:id="@+id/mnu_calculadora"
+        android:showAsAction="ifRoom"
+          android:icon="@drawable/iconlarge3"
+          android:title="Navegacion"/>
+    
+    <item android:id="@+id/mnu_vermenu"
+        android:showAsAction="ifRoom"
+          android:icon="@drawable/ayuda"
+          android:title="Ver menu"/>
+    
+</menu>

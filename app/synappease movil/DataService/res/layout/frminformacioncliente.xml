@@ -1,0 +1,257 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/lycArriba"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lycAbajo"
+        android:background="@drawable/fondopantalla" >
+
+		<TextView
+	    	android:id="@+id/txtCliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#EDEDED"
+            android:ems="10"
+	    	android:text="Cliente" />
+        
+		<TextView
+	    	android:id="@+id/txtDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#EDEDED"
+            android:ems="10"
+            android:layout_below="@+id/txtCliente"
+	    	android:text="Direccion" />
+		
+		<TextView
+	    	android:id="@+id/txtVentaContado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#EDEDED"
+            android:ems="10"
+            android:layout_below="@+id/txtDireccion"
+	    	android:text="Venta Contado" />
+		
+		<TextView
+	    	android:id="@+id/txtVentaCredito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#EDEDED"
+            android:ems="10"
+            android:layout_below="@+id/txtVentaContado"
+	    	android:text="Venta Credito" />
+		
+		<TextView
+	    	android:id="@+id/txtCobro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#EDEDED"
+            android:ems="10"
+            android:layout_below="@+id/txtVentaCredito"
+	    	android:text="Cobro" />
+		
+		<TextView
+	    	android:id="@+id/txtLimiteCredito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#EDEDED"
+            android:ems="10"
+            android:layout_below="@+id/txtCobro"
+	    	android:text="Limite Credito" />
+		
+		<TextView
+	    	android:id="@+id/txtSaldoVencido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#EDEDED"
+            android:ems="10"
+            android:layout_below="@+id/txtLimiteCredito"
+	    	android:text="Saldo Vencido" />
+		
+		<TextView
+	    	android:id="@+id/txtSaldoporVencer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#EDEDED"
+            android:ems="10"
+            android:layout_below="@+id/txtSaldoVencido"
+	    	android:text="Saldo por Vencer" />
+		
+		<TextView
+	    	android:id="@+id/txtCreditoDisponible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#EDEDED"
+            android:ems="10"
+            android:layout_below="@+id/txtSaldoporVencer"
+	    	android:text="Credito Disponible" />
+		
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/lycAbajo"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:background="@drawable/lyabajobackground" >
+
+                <com.System.UI.kButton
+                    android:id="@+id/btnAtras"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/dos_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="REGRESAR"
+                    android:textColor="#FFFFFF" />
+
+                <com.System.UI.kButton
+                    android:id="@+id/btnCobro"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/dos_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="COBRO"
+                    android:textColor="#FFFFFF" />
+
+                <com.System.UI.kButton
+                    android:id="@+id/btnNoCompro"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/tres_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="NO COMPRO"
+                    android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+                
+                <com.System.UI.kButton
+                    android:id="@+id/btnGau"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/dos_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:background="@drawable/iconlarge6"/>
+
+                <com.System.UI.kButton
+                    android:id="@+id/btnVentaContado"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/dos_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="V. CONTADO"
+                    android:textColor="#FFFFFF" />
+
+                <com.System.UI.kButton
+                    android:id="@+id/btnVentaCredito"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/dos_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background"
+                    android:text="V. CREDITO"
+                    android:textColor="#FFFFFF" />
+                
+                <com.System.UI.kButton
+                    android:id="@+id/btnEst"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dos_dp"
+                    android:layout_marginLeft="@dimen/dos_dp"
+                    android:layout_marginRight="@dimen/dos_dp"
+                    android:layout_marginTop="@dimen/dos_dp"
+                    android:background="@drawable/ic_menu_lat"/>
+
+        </LinearLayout>
+
+        </LinearLayout>
+        
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,222 @@
+package com.comynt.vme.frm;
+
+import BO.BOCheckVehiculoRealizado;
+import BO.BOVehiculo;
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Gallery;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import com.System.Dispositivo.Info;
+import com.System.UI.kButton;
+import com.System.UI.kIButton;
+import com.System.UI.kITimeMessage;
+import com.System.Utils.Logg;
+import com.System.Utils.Utils;
+import com.comynt.R;
+import com.comynt.vme.Consumer;
+import com.comynt.vme.Repositorio;
+import com.comynt.vme.adapt.adapImagenesFoto;
+
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
+
+public class frmCheckList extends Activity implements kIButton
+{
+	Repositorio repositorio = Repositorio.getInstance();
+	adapImagenesFoto adapimg =  null;
+
+    private static TextToSpeech mTts;
+    private OnInitListener tts_escucha;
+
+	kButton btnAtras = null;
+	kButton btnAdelate = null;
+	kButton btnVoz = null;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.frmchecklist);
+
+		repositorio.IniciaVariables(this);
+
+	    btnAtras = (kButton) findViewById(R.id.btnAtras);
+	    btnAdelate = (kButton) findViewById(R.id.btnAdelante);
+	    btnVoz = (kButton) findViewById(R.id.btnVoz);
+
+		tts_escucha = new OnInitListener() 
+		{
+		    public void onInit(int status)
+		    {
+		        if (status == TextToSpeech.SUCCESS) 
+		        {
+		        }
+		        else 
+		        {
+		        	//mens("Sin iniciar TextToSpeech.");
+		        }
+		    }
+		};
+        mTts = new TextToSpeech(this, tts_escucha);
+
+		if(repositorio.lsVehiculo == null)
+		{
+			repositorio.ConsultarVehiculo(repositorio.ID_SQL, repositorio.ID_GuardaMemoria);
+		}
+		
+		if(repositorio.lsVehiculo != null)
+		{
+			ArrayAdapter userAdapter = new ArrayAdapter(this, R.layout.spinner, repositorio.lsVehiculo);
+			Spinner spinner = (Spinner) findViewById(R.id.cbxAutos);
+			spinner.setAdapter(userAdapter);
+		}
+		
+		adapimg = new adapImagenesFoto(this);
+		Gallery gallery = (Gallery)findViewById(R.id.galeriaFotos);
+        gallery.setAdapter(adapimg);
+        
+	}
+
+	public static void habla(String cad)
+	{
+		Logg.info("Sirigonia: " + cad);
+
+		mTts.speak(cad, TextToSpeech.QUEUE_FLUSH, null);
+    	while(mTts.isSpeaking());
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+	}
+
+	@Override
+	public void commandAction(kButton b, View v) {
+		if(b == btnAdelate)
+		{
+			//validamos los campos si estan ok, se guarda si no se envia mensaje al usuario
+			EditText txtGasolina = (EditText) findViewById(R.id.txtGasolina);
+			EditText txtKilometraje = (EditText) findViewById(R.id.txtKilometraje);
+			EditText txtEstadoVehiculo = (EditText) findViewById(R.id.txtEstadoGeneral);
+			EditText txtFechaServicio = (EditText) findViewById(R.id.txtFechaServicio);
+			
+			Spinner spinner = (Spinner) findViewById(R.id.cbxAutos);
+			
+			if((!txtGasolina.getText().toString().equals("")) && 
+				(!txtKilometraje.getText().toString().equals("")) &&
+				(!txtEstadoVehiculo.getText().toString().equals("")) &&
+				(!txtFechaServicio.getText().toString().equals("")))
+			{
+				//Guardamos la info del checklist
+				BOVehiculo vehiculo = (BOVehiculo)repositorio.lsVehiculo.get(spinner.getSelectedItemPosition());
+				BOCheckVehiculoRealizado CheckVehiculoRealizado = new BOCheckVehiculoRealizado(frmCheckList.this.getBaseContext());
+				
+				/* 203 */           CheckVehiculoRealizado.ClearProceso();
+				/* 204 */           CheckVehiculoRealizado.ClearParametros();
+
+				/* 206 */           CheckVehiculoRealizado.IdCheckVehiculo = 1;
+				/* 207 */           CheckVehiculoRealizado.IdVehiculo = vehiculo.IdVehiculo;
+				/* 208 */           CheckVehiculoRealizado.IdVendedor = repositorio.Vendedor.IdVendedor;
+				/* 209 */           CheckVehiculoRealizado.PIN = Info.getPIN(frmCheckList.this.getBaseContext());
+				/* 210 */           CheckVehiculoRealizado.Valor = txtGasolina.getText().toString().toUpperCase();
+				/* 211 */           CheckVehiculoRealizado.Fecha = Utils.getFechaActual_DD_MM_YYYY();
+
+				/* 213 */           CheckVehiculoRealizado.TipoProceso = "SQL";
+				/* 214 */           CheckVehiculoRealizado.AgregarProceso("SQL.Agregar");
+				/* 215 */           CheckVehiculoRealizado.EjecutarProceso();
+				
+
+				/* 203 */           CheckVehiculoRealizado.ClearProceso();
+				/* 204 */           CheckVehiculoRealizado.ClearParametros();
+
+				/* 206 */           CheckVehiculoRealizado.IdCheckVehiculo = 2;
+				/* 207 */           CheckVehiculoRealizado.IdVehiculo = vehiculo.IdVehiculo;
+				/* 208 */           CheckVehiculoRealizado.IdVendedor = repositorio.Vendedor.IdVendedor;
+				/* 209 */           CheckVehiculoRealizado.PIN = Info.getPIN(frmCheckList.this.getBaseContext());
+				/* 210 */           CheckVehiculoRealizado.Valor = txtKilometraje.getText().toString().toUpperCase();
+				/* 211 */           CheckVehiculoRealizado.Fecha = Utils.getFechaActual_DD_MM_YYYY();
+
+				/* 213 */           CheckVehiculoRealizado.TipoProceso = "SQL";
+				/* 214 */           CheckVehiculoRealizado.AgregarProceso("SQL.Agregar");
+				/* 215 */           CheckVehiculoRealizado.EjecutarProceso();
+				
+				
+				/* 203 */           CheckVehiculoRealizado.ClearProceso();
+				/* 204 */           CheckVehiculoRealizado.ClearParametros();
+
+				/* 206 */           CheckVehiculoRealizado.IdCheckVehiculo = 3;
+				/* 207 */           CheckVehiculoRealizado.IdVehiculo = vehiculo.IdVehiculo;
+				/* 208 */           CheckVehiculoRealizado.IdVendedor = repositorio.Vendedor.IdVendedor;
+				/* 209 */           CheckVehiculoRealizado.PIN = Info.getPIN(frmCheckList.this.getBaseContext());
+				/* 210 */           CheckVehiculoRealizado.Valor = txtEstadoVehiculo.getText().toString().toUpperCase();
+				/* 211 */           CheckVehiculoRealizado.Fecha = Utils.getFechaActual_DD_MM_YYYY();
+
+				/* 213 */           CheckVehiculoRealizado.TipoProceso = "SQL";
+				/* 214 */           CheckVehiculoRealizado.AgregarProceso("SQL.Agregar");
+				/* 215 */           CheckVehiculoRealizado.EjecutarProceso();
+				
+				
+				/* 203 */           CheckVehiculoRealizado.ClearProceso();
+				/* 204 */           CheckVehiculoRealizado.ClearParametros();
+
+				/* 206 */           CheckVehiculoRealizado.IdCheckVehiculo = 4;
+				/* 207 */           CheckVehiculoRealizado.IdVehiculo = vehiculo.IdVehiculo;
+				/* 208 */           CheckVehiculoRealizado.IdVendedor = repositorio.Vendedor.IdVendedor;
+				/* 209 */           CheckVehiculoRealizado.PIN = Info.getPIN(frmCheckList.this.getBaseContext());
+				/* 210 */           CheckVehiculoRealizado.Valor = txtFechaServicio.getText().toString().toUpperCase();
+				/* 211 */           CheckVehiculoRealizado.Fecha = Utils.getFechaActual_DD_MM_YYYY();
+
+				/* 213 */           CheckVehiculoRealizado.TipoProceso = "SQL";
+				/* 214 */           CheckVehiculoRealizado.AgregarProceso("SQL.Agregar");
+				/* 215 */           CheckVehiculoRealizado.EjecutarProceso();
+
+				Toast.makeText(frmCheckList.this.getBaseContext(), "Se ha guardado la información con exito", Toast.LENGTH_LONG).show();
+				
+	    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+				{
+					habla("Información guardada");
+				}
+				
+				//guardamos la info de la foto
+				finish();
+			}
+			else
+			{
+				Toast.makeText(frmCheckList.this.getBaseContext(), "Los campos son requeridos", Toast.LENGTH_LONG).show();
+				
+	    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+				{
+					habla("Información requerida");
+				}
+			}
+		}
+		else if(b == btnAtras)
+		{
+			finish();
+		}
+		else if(b == btnVoz)
+		{
+			habla("¿En que te puedo ayudar?");
+			//startVoiceRecognitionActivity();
+		}
+	}	
+	
+}

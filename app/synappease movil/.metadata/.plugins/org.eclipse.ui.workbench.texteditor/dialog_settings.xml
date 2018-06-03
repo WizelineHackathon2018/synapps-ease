@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="mProgress" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="mProgress"/>
+			<item value="mProgressStyle"/>
+			<item value="STYLE_SPINNER"/>
+			<item value="mobile.bachoco.macsa"/>
+			<item value="Visita"/>
+			<item value="itinerario.Visita"/>
+			<item value="/*     */"/>
+			<item value="/**/"/>
+		</list>
+		<list key="replacehistory">
+			<item value="comynt.launa"/>
+			<item value=""/>
+			<item value="Tel (442) 212 85 00 y 212 87 02"/>
+			<item value="Col. Villas del Cimatario, CP 76090"/>
+			<item value="Boulevard Bernardo Quintana 803"/>
+			<item value="DESARROLLO DE ALIMENTOS DE MEXICO, S.A. DE C.V."/>
+			<item value="LA UNA"/>
+			<item value="Parque Industrial El marques"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="336" key="DIALOG_WIDTH"/>
+		<item value="1|Tahoma|8.25|0|WINDOWS|1|-11|0|0|0|400|0|0|0|1|0|0|0|0|Tahoma" key="DIALOG_FONT_NAME"/>
+		<item value="394" key="DIALOG_HEIGHT"/>
+		<item value="185" key="DIALOG_Y_ORIGIN"/>
+		<item value="1104" key="DIALOG_X_ORIGIN"/>
+	</section>
+</section>

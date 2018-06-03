@@ -1,0 +1,44 @@
+<resources>
+
+<!-- 	<style name="AlertDialogTheme" parent="@android:style/Theme.Dialog"> -->
+<!--     	<item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item> -->
+<!--     	<item name="android:textColorPrimary">#356794</item> -->
+<!-- 	</style> -->
+    
+<!-- 	<style name="CustomAlertDialogStyle"> -->
+<!--     	<item name="android:bottomBright">#356794</item> -->
+<!--     	<item name="android:bottomDark">#356794</item> -->
+<!--     	<item name="android:bottomMedium">#356794</item> -->
+<!--     	<item name="android:centerBright">#356794</item> -->
+<!--     	<item name="android:centerDark">#356794</item> -->
+<!--     	<item name="android:centerMedium">#356794</item> -->
+<!--     	<item name="android:fullBright">#356794</item> -->
+<!--     	<item name="android:fullDark">#356794</item> -->
+<!--     	<item name="android:topBright">#356794</item> -->
+<!--     	<item name="android:topDark">#356794</item> -->
+<!-- 	</style> -->
+	
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+        
+        <item name="selectorDrawable">@drawable/new_indicator</item>
+        
+    </style>
+
+    <!-- Application theme. -->
+    <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        
+        <item name="selectorDrawable">@drawable/new_indicator</item>
+        
+    </style>
+
+</resources>

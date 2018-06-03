@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/lycArriba"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lycAbajo"
+        android:background="@drawable/fondopantalla" >
+        
+    		<ListView
+    		    android:id="@+id/lsDatosCliente"
+    		    android:layout_width="match_parent"
+    		    android:layout_height="match_parent"
+    		    android:background="@drawable/gradient_bg"
+    		    android:divider="#FFFFFF"
+    		    android:dividerHeight="1dp"
+    		    android:listSelector="@drawable/gradient_bg_hover" >
+                
+    		</ListView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

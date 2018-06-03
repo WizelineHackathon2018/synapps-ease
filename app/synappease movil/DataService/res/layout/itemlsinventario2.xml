@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+	<TextView
+		android:id="@+id/txtinvDescripcion"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+		android:layout_marginLeft="5dp"
+		android:layout_marginRight="5dp"
+		android:padding="@dimen/dos_dp"
+		android:textColor="#000066"
+		android:text="Descripcion"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+    
+    <TableLayout
+        android:id="@+id/TableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+		android:layout_below="@+id/txtinvDescripcion" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cell_background"
+                    android:clickable="false"
+                    android:text="SKU" />
+
+                <Button
+                    android:id="@+id/txtbtnSKU"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cell_background"
+                    android:clickable="false"
+                    android:text="SKU" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+                
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cell_background"
+                    android:clickable="false"
+                    android:text="INICIAL" />
+
+                <Button
+                    android:id="@+id/txtbtnINICIAL"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cell_background"
+                    android:clickable="false"
+                    android:text="INICIAL" />
+                
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+                
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cell_background"
+                    android:clickable="false"
+                    android:text="VENTA" />
+
+                <Button
+                    android:id="@+id/txtbtnVENTA"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cell_background"
+                    android:clickable="false"
+                    android:text="VENTA" />
+                
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+                
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cell_background"
+                    android:clickable="false"
+                    android:text="EXISTENCIA" />
+
+                <Button
+                    android:id="@+id/txtbtnEXISTENCIA"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cell_background"
+                    android:clickable="false"
+                    android:text="EXISTENCIA" />
+                
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+                
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cell_background"
+                    android:clickable="false"
+                    android:text="UNIDADES" />
+
+                <Button
+                    android:id="@+id/txtbtnUNIDADES"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@drawable/cell_background"
+                    android:clickable="false"
+                    android:text="UNIDADES" />
+                
+            </LinearLayout>
+
+        </LinearLayout>
+	
+    </TableLayout>
+
+</RelativeLayout>

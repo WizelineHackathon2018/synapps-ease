@@ -1,0 +1,6 @@
+com.android.ide.eclipse.adt.autoPickTarget=false
+com.android.ide.eclipse.adt.fixLegacyEditors=1
+com.android.ide.eclipse.adt.sdk=C\:\\Repositorio\\Cursos\\AndroidDes\\android-sdk-windows\\android-sdk-windows
+com.android.ide.eclipse.adt.xmlEditor=true
+design.palette.flyout.width=202
+eclipse.preferences.version=1

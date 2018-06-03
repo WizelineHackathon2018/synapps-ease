@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/lycArriba"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lycAbajo"
+        android:background="#FFFFFF" >
+        
+    <TableLayout
+        android:id="@+id/TableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            
+		<TextView
+		    android:id="@+id/lbl1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_gravity="left"
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:layout_marginTop="10dp"
+		    android:text="Asistente de ventas."
+		    android:textColor="#15346C"
+		    android:textSize="22sp" />
+		
+		<TextView
+		    android:id="@+id/lbl2"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_gravity="left"
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:layout_marginTop="10dp"
+		    android:text="Versión XXX."
+		    android:textColor="#15346C" />
+
+		<TextView
+		    android:id="@+id/lbl3"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_gravity="left"
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:layout_marginTop="10dp"
+		    android:text="© 2015 Comynt Soluciones Integrales."
+		    android:textColor="#15346C" />
+		
+		<TextView
+		    android:id="@+id/lbl4"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_gravity="left"
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:layout_marginTop="5dp"
+		    android:text="Todos los derechos reservados."
+		    android:textColor="#15346C" />
+				
+		<TextView
+		    android:id="@+id/lbl5"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_gravity="left"
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:layout_marginTop="10dp"
+		    android:text="www.comynt.com"
+		    android:textColor="#15346C" />
+		
+		<TextView
+		    android:id="@+id/lbl6"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_gravity="left"
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:layout_marginTop="10dp"
+		    android:text="Conoce nuestra empresa"
+		    android:textColor="#15346C"
+		    android:textSize="15sp" />
+				
+		<TextView
+		    android:id="@+id/lbl7"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_gravity="center"
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:layout_marginTop="10dp"
+		    android:text="Comynt Soluciones integrales®, cumple con los estándares internacionales de calidad y procesos, lo cual brinda a nuestros productos garantía de confiabilidad mundial."
+		    android:textColor="#333333" />
+		
+				
+            </LinearLayout>
+
+        </TableRow>        
+
+    </TableLayout>
+    
+    </RelativeLayout>
+
+</RelativeLayout>

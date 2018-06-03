@@ -1,0 +1,539 @@
+package com.comynt.vme.frm;
+
+import BO.*;
+import android.os.Bundle;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.content.DialogInterface.*;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Gallery;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+import com.System.Dispositivo.Info;
+import com.System.UI.kButton;
+import com.System.UI.kIButton;
+import com.System.UI.kITimeMessage;
+import com.System.UI.kTimeMessage;
+import com.System.Utils.Logg;
+import com.System.Utils.Utils;
+import com.comynt.R;
+import com.comynt.vme.Consumer;
+import com.comynt.vme.Repositorio;
+import com.comynt.vme.adapt.adapAgenda;
+import com.comynt.vme.adapt.adapImagenesFoto;
+
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.format.DateFormat;
+
+public class frmActividades extends FragmentActivity implements kITimeMessage, kIButton
+{
+	Repositorio repositorio = Repositorio.getInstance();
+
+	long tiempoanterior = 0;
+	int positionanterior = -2;
+	Date fechaactual;
+
+	int fila = -1;
+	int selectedfila = -1;
+
+	EditText txtBuscar = null;
+
+	kButton btnAtras = null;
+	kButton btnAdelate = null;
+	kButton btnVoz = null;
+
+	kButton btnAgregarAgenda = null;
+	kButton btnAgregarQueja = null;
+	kButton btnAgregarIncidente = null;
+
+	kButton btn_yes = null;
+	kButton btn_no = null;
+	kButton btnHoraFecha = null;
+	kButton btnHoraInicial = null;
+	kButton btnHoraFinal = null;
+
+	Spinner cbxClientes = null;
+	Spinner cbxTipoActividad = null;
+
+	EditText txtdlgDescripcion = null;
+	EditText txtdlgObservaciones = null;
+	EditText txtdlgHoraInicial = null;
+	EditText txtdlgHoraFinal = null;
+	EditText txtdlgFecha = null;
+	EditText txtdlgMotivoReagenda = null;
+	
+
+	ListView list = null;
+	static adapAgenda adapter = null;
+	
+	static View dlgActividadNewEdit;
+	AlertDialog deleteDialog;
+	static boolean agregar = false;
+	static boolean horainicial = false;
+
+    private static TextToSpeech mTts;
+    private OnInitListener tts_escucha;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.frmagenda);
+		
+		LayoutInflater factory = LayoutInflater.from(this);
+	    dlgActividadNewEdit = factory.inflate(R.layout.dlgactividad, null);
+
+	    deleteDialog = new AlertDialog.Builder(this).create();
+	    deleteDialog.setView(dlgActividadNewEdit);
+	    deleteDialog.setTitle(R.string.app_name);
+
+	    btnAtras = (kButton) findViewById(R.id.btnAtras);
+	    btnAdelate = (kButton) findViewById(R.id.btnAdelante);
+	    btnVoz = (kButton) findViewById(R.id.btnVoz);
+	    
+	    btnAgregarAgenda = (kButton)findViewById(R.id.btnAgregarAgenda);
+	    
+	    btnAgregarQueja = (kButton)findViewById(R.id.btnAgregarQueja);
+	    btnAgregarIncidente = (kButton)findViewById(R.id.btnAgregarIncidente);
+	    
+	    cbxClientes = (Spinner) dlgActividadNewEdit.findViewById(R.id.cbxClientes);
+	    cbxTipoActividad = (Spinner) dlgActividadNewEdit.findViewById(R.id.cbxTipoActividad);
+	    
+	    txtdlgDescripcion = (EditText) dlgActividadNewEdit.findViewById(R.id.txtdlgDescripcion);
+	    txtdlgObservaciones = (EditText) dlgActividadNewEdit.findViewById(R.id.txtdlgObservaciones);
+	    txtdlgHoraInicial = (EditText) dlgActividadNewEdit.findViewById(R.id.txtdlgHoraInicial);
+	    txtdlgHoraFinal = (EditText) dlgActividadNewEdit.findViewById(R.id.txtdlgHoraFinal);
+	    txtdlgFecha = (EditText) dlgActividadNewEdit.findViewById(R.id.txtdlgFecha);
+
+	    
+	    txtdlgMotivoReagenda = (EditText) dlgActividadNewEdit.findViewById(R.id.txtdlgMotivoReagenda);
+
+	    
+	    btnHoraFecha = (kButton) dlgActividadNewEdit.findViewById(R.id.btnHoraFecha);
+	    btnHoraInicial = (kButton) dlgActividadNewEdit.findViewById(R.id.btnHoraInicial);
+	    btnHoraFinal = (kButton) dlgActividadNewEdit.findViewById(R.id.btnHoraFinal);
+
+	    btn_yes = (kButton)dlgActividadNewEdit.findViewById(R.id.btn_yes);
+	    btn_no = (kButton) dlgActividadNewEdit.findViewById(R.id.btn_no);
+
+		tts_escucha = new OnInitListener() 
+		{
+		    public void onInit(int status)
+		    {
+		        if (status == TextToSpeech.SUCCESS) 
+		        {
+		        }
+		        else 
+		        {
+		        	//mens("Sin iniciar TextToSpeech.");
+		        }
+		    }
+		};
+        mTts = new TextToSpeech(this, tts_escucha);
+
+	    if(repositorio.lsActividades == null)
+	    {
+			repositorio.ConsultarActividadesProximas(repositorio.ID_SQL, repositorio.ID_GuardaMemoria);
+	    }
+
+		if(repositorio.lsActividades != null)
+		{
+			list = (ListView)findViewById(R.id.lsveractividades);
+
+	        adapter = new adapAgenda(this, repositorio.lsActividades);
+	        list.setAdapter(adapter);
+
+			list.setClickable(false);
+
+			Calendar c = Calendar.getInstance();
+			fechaactual = c.getTime();
+			tiempoanterior = fechaactual.getTime();
+			
+			list.setOnItemClickListener(new OnItemClickListener() 
+			{
+			    @Override
+			    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			    {
+			    	list.playSoundEffect(0);
+			    	
+			    	long fechanueva = 0;
+					Calendar c = Calendar.getInstance();
+					fechanueva = c.getTime().getTime();
+					
+					selectedfila = position;
+					
+			    	if((fechanueva - tiempoanterior < 1500) && (positionanterior == position)) //DOBLE CLICK EDITAR LA ACTIVIDAD
+			    	{
+			    		agregar = false;
+			    		fila = position;
+			    		Logg.info("Posicion seleccionada: " + fila);
+			    		
+			    		repositorio.Actividades = (BOActividades)repositorio.lsActividades.get(position);
+			    		
+						cbxTipoActividad.setSelection(repositorio.Actividades.IdEvento - 1);
+			    		
+						cbxClientes.setVisibility(view.GONE);
+						cbxTipoActividad.setVisibility(view.GONE);
+						txtdlgMotivoReagenda.setVisibility(view.VISIBLE);
+						
+						txtdlgDescripcion.setText(repositorio.Actividades.Descripcion);
+						txtdlgFecha.setText(repositorio.Actividades.FechaProgramada);
+						txtdlgHoraFinal.setText(repositorio.Actividades.HoraFin);
+						txtdlgHoraInicial.setText(repositorio.Actividades.HoraInicio);
+						txtdlgObservaciones.setText(repositorio.Actividades.Observaciones);
+			    		
+					    deleteDialog.show();
+			    	}
+
+			    	tiempoanterior = fechanueva;
+			    	positionanterior = position;
+
+			    }
+			});
+
+			txtBuscar = (EditText) findViewById(R.id.txtBuscar);
+			txtBuscar.addTextChangedListener(new TextWatcher() 
+			{
+	            @Override
+	            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) 
+	            {
+
+	            	if(cs.toString().equals(""))
+	            	{
+						frmActividades.this.adapter.getFilter().filter(cs);
+	            	}
+	            	else
+	            	{
+	            		if(cs.length() > 2)
+	            		{
+							frmActividades.this.adapter.getFilter().filter(cs);
+	            		}
+	            	}
+
+	            }
+
+	            @Override
+	            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,int arg3) 
+	            {
+	                // TODO Auto-generated method stub
+	            }
+
+	            @Override
+	            public void afterTextChanged(Editable arg0) 
+	            {
+	                // TODO Auto-generated method stub                         
+	            }
+	        });			
+		}
+
+	}
+
+	public static void habla(String cad)
+	{
+		Logg.info("Sirigonia: " + cad);
+
+		mTts.speak(cad, TextToSpeech.QUEUE_FLUSH, null);
+    	while(mTts.isSpeaking());
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+	}
+
+	@Override
+	public void getAnswer(int id, String res, Object res2)
+	{
+		if(id == R.id.btnHoraInicial)
+		{
+			EditText txtdlgHoraInicial = (EditText)dlgActividadNewEdit.findViewById(R.id.txtdlgHoraInicial);
+			txtdlgHoraInicial.setText(res);
+		}
+		else if(id == R.id.btnHoraFinal)
+		{
+			EditText txtdlgHoraFinal = (EditText)dlgActividadNewEdit.findViewById(R.id.txtdlgHoraFinal);
+			txtdlgHoraFinal.setText(res);
+		}
+		else if(id == R.id.btnHoraFecha)
+		{
+			EditText txtdlgFecha = (EditText)dlgActividadNewEdit.findViewById(R.id.txtdlgFecha);
+			txtdlgFecha.setText(res);
+		}
+	}
+
+	@Override
+	public void commandAction(kButton b, View v)
+	{
+		if(b == btnAdelate)
+		{
+			if(repositorio.lsActividades != null)
+			{
+				if(selectedfila > -1)
+				{
+					repositorio.Actividades = (BOActividades)repositorio.lsActividades.get(selectedfila);
+					
+					//Si no tiene gps pide el gps
+
+					//si tiene, revisa cual tipo de evento es
+
+					if(repositorio.Actividades.IdEvento == 1) //Evento general
+					{
+						Intent sig = new Intent(frmActividades.this, frmEventoRealizado.class);
+						startActivityForResult(sig, 500);
+						overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+					}
+					else if(repositorio.Actividades.IdEvento == 2) //Visita
+					{
+						
+					}
+					else if(repositorio.Actividades.IdEvento == 3) //Prospectar
+					{
+						Intent sig = new Intent(frmActividades.this, frmProspectoRealizado.class);
+						startActivityForResult(sig, 500);
+						overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+					}
+
+				}
+				else
+				{
+					Toast.makeText(v.getContext(), "Debe seleccionar una actividad", Toast.LENGTH_SHORT).show();
+				}
+			}
+			else
+			{
+				Toast.makeText(v.getContext(), "No hay actividades en la agenda", Toast.LENGTH_SHORT).show();
+			}
+		}
+		else if(b == btnAtras)
+		{
+			finish();
+		}
+		else if(b == btnVoz)
+		{
+			habla("¿En que te puedo ayudar?");
+			//startVoiceRecognitionActivity();
+		}
+		else if(b == btnAgregarAgenda)
+		{
+			agregar = true;
+			
+			cbxClientes.setVisibility(View.VISIBLE);
+			cbxTipoActividad.setVisibility(View.VISIBLE);
+			txtdlgMotivoReagenda.setVisibility(View.GONE);
+			
+			this.cbxClientes.setSelection(0);
+			this.cbxTipoActividad.setSelection(0);
+			
+			this.txtdlgDescripcion.setText("");
+			this.txtdlgFecha.setText("");
+			this.txtdlgHoraFinal.setText("");
+			this.txtdlgHoraInicial.setText("");
+			this.txtdlgObservaciones.setText("");
+			
+		    deleteDialog.show();
+		}
+		
+		else if(b == btnAgregarQueja)
+		{
+			//se agrega la queja
+			Intent sig = new Intent(frmActividades.this, frmAgregarQueja.class);
+			startActivity(sig);
+
+		}
+		
+		else if(b == btnAgregarIncidente)
+		{
+			//se agrega el incidente si ha seleccionado una actividad
+			if(selectedfila > -1)
+			{
+	    		repositorio.Actividades = (BOActividades)repositorio.lsActividades.get(selectedfila);
+
+				Intent sig = new Intent(frmActividades.this, frmAgregarIncidente.class);
+				startActivity(sig);
+			}
+			else
+			{
+	    		Toast.makeText(v.getContext(), "Debe selecciona una actividad", Toast.LENGTH_LONG).show();
+
+	    		if(repositorio.ConfiguracionUsabilidad.Voz == 1)
+				{
+					habla("Debe selecciona una actividad");
+				}
+			}
+
+		}
+
+		else if(b == btn_yes)
+		{
+        	if(agregar) //agregar actividad BO y recargar la lista
+        	{
+        		//Se agrega el BO para que se envie
+        		
+        		//se agrega la actividad en la lista
+        		BOActividades Actividades = new BOActividades(this);
+        		
+	    		Actividades.IdEvento = cbxTipoActividad.getSelectedItemPosition() + 1;
+	    		Actividades.Descripcion = txtdlgDescripcion.getText().toString();
+	    		Actividades.FechaProgramada = txtdlgFecha.getText().toString();
+	    		Actividades.HoraInicio = txtdlgHoraInicial.getText().toString();
+	    		Actividades.HoraFin = txtdlgHoraFinal.getText().toString();
+	    		Actividades.Observaciones = txtdlgObservaciones.getText().toString();
+	    		
+				Calendar cal = Calendar.getInstance();
+
+				cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(Utils.Split(Actividades.FechaProgramada, "/")[0]));
+				cal.set(Calendar.MONTH, Integer.parseInt(Utils.Split(Actividades.FechaProgramada, "/")[1])-1);
+				cal.set(Calendar.YEAR, Integer.parseInt(Utils.Split(Actividades.FechaProgramada, "/")[2]));
+
+				cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(Utils.Split(Actividades.HoraInicio, ":")[0]));
+				cal.set(Calendar.MINUTE, Integer.parseInt(Utils.Split(Actividades.HoraInicio, ":")[1]));
+				Date fechaHoraInicio = cal.getTime();
+				
+				Actividades.Tiempo = fechaHoraInicio.getTime();
+	    		
+	    		adapter.addBO(Actividades);
+	    		frmActividades.this.adapter.getFilter().filter(this.txtBuscar.getText().toString());
+        		
+        		Toast.makeText(v.getContext(), "Se agrego la actividad con exito", Toast.LENGTH_SHORT).show();
+        	}
+        	else //editar actividad y recargar la lista
+        	{
+        		//Se edita la actividad en el BO para que se envie
+        		
+        		//se recarga la lista
+        		
+	    		repositorio.Actividades = (BOActividades)repositorio.lsActividades.get(fila);
+        		
+	    		repositorio.Actividades.IdEvento = cbxTipoActividad.getSelectedItemPosition() + 1;
+	    		
+	    		repositorio.Actividades.Descripcion = txtdlgDescripcion.getText().toString();
+	    		repositorio.Actividades.FechaProgramada = txtdlgFecha.getText().toString();
+	    		repositorio.Actividades.HoraInicio = txtdlgHoraInicial.getText().toString();
+	    		repositorio.Actividades.HoraFin = txtdlgHoraFinal.getText().toString();
+	    		repositorio.Actividades.Observaciones = txtdlgObservaciones.getText().toString();
+	    		
+				Calendar cal = Calendar.getInstance();
+
+				cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(Utils.Split(repositorio.Actividades.FechaProgramada, "/")[0]));
+				cal.set(Calendar.MONTH, Integer.parseInt(Utils.Split(repositorio.Actividades.FechaProgramada, "/")[1])-1);
+				cal.set(Calendar.YEAR, Integer.parseInt(Utils.Split(repositorio.Actividades.FechaProgramada, "/")[2]));
+
+				cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(Utils.Split(repositorio.Actividades.HoraInicio, ":")[0]));
+				cal.set(Calendar.MINUTE, Integer.parseInt(Utils.Split(repositorio.Actividades.HoraInicio, ":")[1]));
+				Date fechaHoraInicio = cal.getTime();
+				
+				repositorio.Actividades.Tiempo = fechaHoraInicio.getTime();
+	    		
+	    		repositorio.lsActividades.set(fila, repositorio.Actividades);
+	    		adapter.editBO(repositorio.Actividades, fila);
+	    		frmActividades.this.adapter.getFilter().filter(this.txtBuscar.getText().toString());
+	    		
+        		Toast.makeText(v.getContext(), "Se edito la actividad con exito", Toast.LENGTH_SHORT).show();
+        	}
+            deleteDialog.dismiss();
+		}
+		else if(b == btn_no)
+		{
+            deleteDialog.dismiss();
+		}
+		else if(b == btnHoraFecha)
+		{
+        	if(agregar)
+        	{
+	        	DialogFragment newFragment = 
+	        			new kTimeMessage("FECHA ACTIVIDAD", kTimeMessage.DLG_FECHA, R.id.btnHoraFecha, (kITimeMessage)v.getContext());
+	            newFragment.show(getSupportFragmentManager(), "");
+        	}
+        	else
+        	{
+    			EditText txtdlgFecha = (EditText)dlgActividadNewEdit.findViewById(R.id.txtdlgFecha);
+    			
+    			int dia = Integer.parseInt(Utils.splitString(txtdlgFecha.getText().toString(), '/')[0]);
+    			int mes = Integer.parseInt(Utils.splitString(txtdlgFecha.getText().toString(), '/')[1])-1;
+    			int anio = Integer.parseInt(Utils.splitString(txtdlgFecha.getText().toString(), '/')[2]);
+        		
+	        	DialogFragment newFragment = 
+	        			new kTimeMessage("FECHA ACTIVIDAD", dia, mes, anio, 
+	        			kTimeMessage.DLG_FECHA, R.id.btnHoraFecha, (kITimeMessage)v.getContext());
+	            newFragment.show(getSupportFragmentManager(), "");
+        	}
+		}
+		else if(b == btnHoraInicial)
+		{
+        	if(agregar)
+        	{
+	        	DialogFragment newFragment = 
+	        			new kTimeMessage("HORA INICIAL", kTimeMessage.DLG_HORA, R.id.btnHoraInicial, (kITimeMessage)v.getContext());
+	            newFragment.show(getSupportFragmentManager(), "");
+        	}
+        	else
+        	{
+    			EditText txtdlgHoraInicial = (EditText)dlgActividadNewEdit.findViewById(R.id.txtdlgHoraInicial);
+    			
+    			int hora = Integer.parseInt(Utils.splitString(txtdlgHoraInicial.getText().toString(), ':')[0]);
+    			int minuto = Integer.parseInt(Utils.splitString(txtdlgHoraInicial.getText().toString(), ':')[1]);
+
+	        	DialogFragment newFragment = 
+	        			new kTimeMessage("HORA INICIAL", hora, minuto,
+	        			kTimeMessage.DLG_HORA, R.id.btnHoraInicial, (kITimeMessage)v.getContext());
+	            newFragment.show(getSupportFragmentManager(), "");
+        	}
+		}
+		else if(b == btnHoraFinal)
+		{
+        	if(agregar)
+        	{
+	        	DialogFragment newFragment = 
+	        			new kTimeMessage("HORA FINAL", kTimeMessage.DLG_HORA, R.id.btnHoraFinal, (kITimeMessage)v.getContext());
+	            newFragment.show(getSupportFragmentManager(), "HORA FINAL");
+        	}
+        	else
+        	{
+        		EditText txtdlgHoraFinal = (EditText)dlgActividadNewEdit.findViewById(R.id.txtdlgHoraFinal);
+
+    			int hora = Integer.parseInt(Utils.splitString(txtdlgHoraFinal.getText().toString(), ':')[0]);
+    			int minuto = Integer.parseInt(Utils.splitString(txtdlgHoraFinal.getText().toString(), ':')[1]);
+        		
+	        	DialogFragment newFragment = 
+	        			new kTimeMessage("HORA FINAL", hora, minuto,
+	        			kTimeMessage.DLG_HORA, R.id.btnHoraFinal, (kITimeMessage)v.getContext());
+	            newFragment.show(getSupportFragmentManager(), "");
+        	}
+		}
+	}
+
+}
